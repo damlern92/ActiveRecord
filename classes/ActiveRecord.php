@@ -29,7 +29,7 @@ abstract class ActiveRecord {
         $q = rtrim($q,","); // Oslobadjanje viska zareza
         // Filtracija:
         $keyField = static::$key;
-        $q.="where".static::$key." = " . $this->$keyField; //Vrednost key kolone
+        $q.="where ".static::$key." = " . $this->$keyField; //Vrednost key kolone
 
         mysqli_query(Database::getInstance(),$q);  //Izvrsavanje upita
 
