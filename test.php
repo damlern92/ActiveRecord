@@ -26,4 +26,3 @@ echo "</pre>";
 // Brisanje kategorije iz baze podataka:
 // $cat = new Category;
 // $cat->delete(13);
-
