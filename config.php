@@ -7,8 +7,8 @@
 DEFINE ('DBHOST', 'localhost');
 DEFINE ('DBUSER', 'root');
 DEFINE ('DBPASS', '');
-DEFINE ('DB', 'moviestore');
+DEFINE ('DB', 'categories');
 
 spl_autoload_register(function($className){
-    require_once($_SERVER['DOCUMENT_ROOT'] ."/partial-from-shop/card/classes/{$className}.php");
+    require_once($_SERVER['DOCUMENT_ROOT'] ."/classes/{$className}.php");
 });
