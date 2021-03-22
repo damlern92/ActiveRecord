@@ -1,13 +1,15 @@
 <?php
 
 abstract class ActiveRecord {
-	// getAll vraca sve redove iz odredjene tabele:
+    // Get all data from specified table:
     public static function getAll($filter=""){
         $q = mysqli_query(Database::getInstance(),"select * from ".static::$table." ".$filter);
 
         $res = array();
-        while($rw=mysqli_fetch_object($q,get_called_class())) //Ovde ce biti Naziv klase koja je aktivirala ovaj metod
-        $res[] = $rw; // Dobijanje niza objekata te klase
+
+        while($rw=mysqli_fetch_object($q,get_called_class())) // Here is the name of the class that is actvated this method
+        $res[] = $rw; // Object of that class
+
 		return $res;
     }
 
@@ -16,31 +18,31 @@ abstract class ActiveRecord {
         return mysqli_fetch_object($q,get_called_class());
     }
 
-    //Ova metoda Bice instancna metoda, uzeti podatke koje imam na raspolaganju i njih staviti u bazu:
+
     public function save() {
-        // UPDATE table(name) SET kolona1=vrednostA, kolona2=vrednostB;
+        // example UPDATE table(name) SET column=valueA, column2=valueB;
         $q = "update " . static::$table . " set ";
 
-        foreach($this as $k=>$v){ // This je polje objekta nad kome je pozvana ova metoda
-            if($k==static::$key) continue; // Polje id ce biti ignorisano
-            $q.=$k."='".$v."',"; // Dodavanje ostalih kolona u upit
+        foreach($this as $k=>$v){ // This is a field of the object
+            if($k==static::$key) continue; // the field id will be ignored
+            $q.=$k."='".$v."',";
         }
 
-        $q = rtrim($q,","); // Oslobadjanje viska zareza
+        $q = rtrim($q,","); // Remove more comma
         // Filtracija:
         $keyField = static::$key;
-        $q.="where ".static::$key." = " . $this->$keyField; //Vrednost key kolone
+        $q.="where".static::$key." = " . $this->$keyField; // key field value
 
-        mysqli_query(Database::getInstance(),$q);  //Izvrsavanje upita
+        mysqli_query(Database::getInstance(),$q); 
 
     }// End save() method
 
-    public function insert(){// Istancna metoda insert kao i save
-        $fields = get_object_vars($this);// Asociativni niz sa kljucevima i vrednostima:
-        $keys  = array_keys($fields);// Niz sa kljucevima
-        $values = array_values($fields);// Niz sa vrednostima
+    public function insert(){
+        $fields = get_object_vars($this);// Gain array with keys and valus
+        $keys  = array_keys($fields);// array with keys
+        $values = array_values($fields);// array with values
 
-        // Upotrebiti gore iznad niz, da se napravi dva pod niza jedan sa kljucevima i jedan sa vrednostima
+
         $q = "insert into " . static::$table . "(";
         $q.= implode(",", $keys);
         $q.=") values ('";
@@ -51,13 +53,12 @@ abstract class ActiveRecord {
         mysqli_query(Database::getInstance(),$q);
         $keyField = static::$key;
         $this->$keyField = mysqli_insert_id(Database::getInstance());
-		//mysqli_insert_id($conn) Funkcija vraca poslednji uneti id
-		// Za ubacivanje nove kategorije u formi
+		// Get the last id
 
     } // End of insert metod
 
     public static function delete($id){
-        $q = "delete from " . static::$table . " where ". static::$key . " = " . $id;
+        $q = "delete * from " . static::$table . " where ". static::$key . " = " . $id;
         mysqli_query(Database::getInstance(),$q);
     }
 

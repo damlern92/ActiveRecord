@@ -10,5 +10,5 @@ DEFINE ('DBPASS', '');
 DEFINE ('DB', 'categories');
 
 spl_autoload_register(function($className){
-    require_once($_SERVER['DOCUMENT_ROOT'] ."/classes/{$className}.php");
+    require_once($_SERVER['DOCUMENT_ROOT'] ."/active-record/classes/{$className}.php");
 });
