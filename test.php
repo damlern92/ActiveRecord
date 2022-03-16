@@ -28,8 +28,6 @@ echo "</pre>";
 // $cat->description = "Some description";
 // $cat->insert();
 
-
-// Brisanje kategorije iz baze podataka:
 // Delete the category from database:
 // $cat = new Category;
 // $cat->delete(13);
